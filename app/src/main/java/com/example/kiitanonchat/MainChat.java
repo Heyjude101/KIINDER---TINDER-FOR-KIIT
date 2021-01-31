@@ -1,6 +1,7 @@
 package com.example.kiitanonchat;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -45,10 +46,12 @@ import java.util.Calendar;
 
 public class MainChat extends AppCompatActivity
 {
+    AlertDialog.Builder builder;
     SharedPreferences sharedPreferences;
     RecyclerView recyclerView;
     EditText et1;
     String versionC;
+    AlertDialog alertDialog;
     DatabaseReference reference;
     DatabaseReference referenceRealTime;
     ImageButton b1;
@@ -215,20 +218,34 @@ public class MainChat extends AppCompatActivity
             dialog.show();
         }
         if(itemId == R.id.logout){
-            SharedPreferences preferences =getSharedPreferences("LogInCheck", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.clear();
-            editor.apply();
-            SharedPreferences colorPrefs =getSharedPreferences("COLOR", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editorC = colorPrefs.edit();
-            editorC.clear();
-            editorC.apply();
-            SharedPreferences usernamePrefs =getSharedPreferences("COLOR", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editorUserPrefs = usernamePrefs.edit();
-            editorUserPrefs.clear();
-            editorUserPrefs.apply();
-            finish();
-            Toast.makeText(this, "Account deleted and exited the app", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(MainChat.this);
+            builder1.setView(R.layout.logout_dialog)
+                    .setTitle("Are you sure?")
+                    .setCancelable(true)
+                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            SharedPreferences preferences =getSharedPreferences("LogInCheck", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.clear();
+                            editor.apply();
+                            SharedPreferences colorPrefs =getSharedPreferences("COLOR", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editorC = colorPrefs.edit();
+                            editorC.clear();
+                            editorC.apply();
+                            SharedPreferences usernamePrefs =getSharedPreferences("COLOR", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editorUserPrefs = usernamePrefs.edit();
+                            editorUserPrefs.clear();
+                            editorUserPrefs.apply();
+
+                            finish();
+                            Toast.makeText(MainChat.this, "Account deleted and exited the app", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNeutralButton("Cancel" , null);
+            AlertDialog dialog = builder1.create();
+            dialog.show();
         }
         if(itemId == R.id.update){
             AlertDialog.Builder alert;
@@ -260,9 +277,6 @@ public class MainChat extends AppCompatActivity
             });
         }
         return true; }
-
-
-
 
 
     //ACTIVITY LIFECYCLE
@@ -300,7 +314,6 @@ public class MainChat extends AppCompatActivity
             }
         });
     }
-
     public void setTheDesignRealTime(){
         referenceRealTime = db.getReference().child("Realtime");
         referenceRealTime.addValueEventListener(new ValueEventListener() {
