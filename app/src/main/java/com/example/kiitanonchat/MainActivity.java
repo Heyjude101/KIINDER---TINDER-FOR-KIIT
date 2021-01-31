@@ -140,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
             i = 1;
             Intent intent = new Intent(MainActivity.this, MainChat.class);
             startActivity(intent);
-            Toast.makeText(this, "Already logged in", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
