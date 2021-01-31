@@ -96,6 +96,8 @@ public class MainChat extends AppCompatActivity
 
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference node = db.getReference("AllChat");
+        DatabaseReference nodeU = db.getReference("AllUsers");
+
 
         FirebaseDatabase.getInstance().getReference().child("AllChat").addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -134,7 +136,12 @@ public class MainChat extends AppCompatActivity
                 if (val.contains("$clearChat$")) {
                     node.removeValue();
                     Toast.makeText(this, "All messages Deleted.", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else if(val.contains("$clearUser$")) {
+                    nodeU.removeValue();
+                    Toast.makeText(this, "All users Deleted.", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     sharedPreferences = getSharedPreferences("COLOR", Context.MODE_PRIVATE);
                     String username = getSharedPreferences("Current_Username", 0).getString("username", "Anonymous");
                     DatabaseReference newVal = node.push();
