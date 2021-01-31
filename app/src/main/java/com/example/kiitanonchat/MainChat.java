@@ -283,10 +283,11 @@ public class MainChat extends AppCompatActivity
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     dialog_TextView_update.setText("No updates Available at the moment. Please check back later.");
-                    dialog_button_update.setVisibility(View.GONE);
+
                 }
                 else{
                     dialog_TextView_update.setText("Updates are Available. Please click on download button to proceed.");
+                    dialog_button_update.setVisibility(View.VISIBLE);
                 }
             }
             @Override

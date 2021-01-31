@@ -160,12 +160,12 @@ public class MainActivity extends AppCompatActivity {
 
         }
         if(username.length()<3){
-            Toast.makeText(this, "Too small nickname. Should be more than 2 characters.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Too small nickname. Should be more than 2 characters.", Toast.LENGTH_LONG).show();
             return false;
         }
         if(!pattern.matcher(username).matches()){
 
-            Toast.makeText(this, "Invalid nickname. Nicknames can only contain numbers and letters", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Invalid nickname. Nicknames can only contain numbers and letters", Toast.LENGTH_LONG).show();
         return false;}
         return true;
     }

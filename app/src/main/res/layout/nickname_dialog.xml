@@ -22,7 +22,7 @@
         android:layout_margin="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Can contain numbers and letters only"/>
+        android:hint="Numbers and letters only"/>
 
 
     <Button
