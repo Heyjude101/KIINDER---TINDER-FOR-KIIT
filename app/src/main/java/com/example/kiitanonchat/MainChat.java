@@ -178,9 +178,6 @@ public class MainChat extends AppCompatActivity
         });
     }
 
-
-
-    //OTHER FUNCTIONS
     //OTHER FUNCTIONS
 
     private boolean isConnectedToInternet(Context context) {
@@ -282,8 +279,9 @@ public class MainChat extends AppCompatActivity
     }
 
 
+    //Version check
     private void isSameVersion(String versionC) {
-        reference = db.getReference().child("LatestVersion");
+        reference = db.getReference().child("Version");
         reference.orderByChild("version").equalTo(versionC).addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -304,7 +302,7 @@ public class MainChat extends AppCompatActivity
     }
 
     public void setTheDesignRealTime(){
-        referenceRealTime = db.getReference().child("realtime");
+        referenceRealTime = db.getReference().child("Realtime");
         referenceRealTime.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
