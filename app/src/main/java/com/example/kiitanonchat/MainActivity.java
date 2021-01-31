@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -95,10 +96,8 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this, "No internet connection.", Toast.LENGTH_LONG).show();
                 } else {
                     String name = dialog_editText.getText().toString().trim();
-                    if (!name.isEmpty()) {
+                    if (isUsernameOk(name)) {
                         userExists(name);
-                    } else {
-                        Toast.makeText(MainActivity.this, "Nickname cannot be empty", Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -150,5 +149,24 @@ public class MainActivity extends AppCompatActivity {
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo == null || !netInfo.isConnectedOrConnecting();
+    }
+
+    //CHECK USERNAME
+    private boolean isUsernameOk(String username){
+        Pattern pattern = Pattern.compile("[A-Za-z0-9]+");
+        if (username.length()>16){
+            Toast.makeText(this, "Too long nickname. Should be less than 16 characters.", Toast.LENGTH_LONG).show();
+            return false;
+
+        }
+        if(username.length()<3){
+            Toast.makeText(this, "Too small nickname. Should be more than 2 characters.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(!pattern.matcher(username).matches()){
+
+            Toast.makeText(this, "Invalid nickname. Nicknames can only contain numbers and letters", Toast.LENGTH_SHORT).show();
+        return false;}
+        return true;
     }
 }
