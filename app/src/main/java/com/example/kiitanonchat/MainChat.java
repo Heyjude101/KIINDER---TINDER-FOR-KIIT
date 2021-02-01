@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,6 +47,7 @@ import java.util.Calendar;
 
 public class MainChat extends AppCompatActivity
 {
+    ActionBar actionBar;
     SharedPreferences sharedPreferences;
     RecyclerView recyclerView;
     EditText et1;
@@ -68,6 +70,8 @@ public class MainChat extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        actionBar = getSupportActionBar();
+        actionBar.setTitle("Kiit Open Chat");
         db = FirebaseDatabase.getInstance();
         recyclerView = findViewById(R.id.recyclerView);
         b1 = findViewById(R.id.b1);
