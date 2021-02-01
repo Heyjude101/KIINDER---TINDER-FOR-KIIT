@@ -46,15 +46,13 @@ import java.util.Calendar;
 
 public class MainChat extends AppCompatActivity
 {
-    AlertDialog.Builder builder;
     SharedPreferences sharedPreferences;
     RecyclerView recyclerView;
     EditText et1;
     String versionC;
-    AlertDialog alertDialog;
     DatabaseReference reference;
     DatabaseReference referenceRealTime;
-    ImageButton b1;
+    ImageButton b1, uploadButton;
     Button dialog_button_update;
     LinearLayoutManager mLayoutManager;
     myAdapter adapter;
@@ -73,6 +71,7 @@ public class MainChat extends AppCompatActivity
         db = FirebaseDatabase.getInstance();
         recyclerView = findViewById(R.id.recyclerView);
         b1 = findViewById(R.id.b1);
+        uploadButton = findViewById(R.id.uploadButton);
         et1 = findViewById(R.id.et1);
         b1.setEnabled(false);
         mLayoutManager = new LinearLayoutManager(this);
@@ -112,6 +111,13 @@ public class MainChat extends AppCompatActivity
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainChat.this, "Sending image feature coming soon 🙂🔥", Toast.LENGTH_LONG).show();
             }
         });
 

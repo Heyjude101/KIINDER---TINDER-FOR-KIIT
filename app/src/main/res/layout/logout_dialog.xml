@@ -8,6 +8,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="You will lose access to the nickname. Proceed?"
+        android:text="You will lose access to the nickname. You can always create a new one though. Proceed?"
         android:textSize="20sp" />
 </ScrollView>
