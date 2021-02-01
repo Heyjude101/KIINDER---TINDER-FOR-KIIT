@@ -1,9 +1,12 @@
 package com.example.kiitanonchat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -28,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -41,12 +45,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class MainChat extends AppCompatActivity
 {
+    Bitmap bitmap;
     ActionBar actionBar;
     SharedPreferences sharedPreferences;
     RecyclerView recyclerView;
@@ -64,6 +76,7 @@ public class MainChat extends AppCompatActivity
     model obj;
     String url;
     AlertDialog dialog;
+    Uri filepath;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -121,6 +134,27 @@ public class MainChat extends AppCompatActivity
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Dexter.withContext(MainChat.this)
+                        .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        .withListener(new PermissionListener() {
+                            @Override
+                            public void onPermissionGranted(PermissionGrantedResponse response)
+                            {
+                                Intent intent=new Intent(Intent.ACTION_PICK);
+                                intent.setType("image/*");
+                                startActivityForResult(Intent.createChooser(intent,"Select Image File"),1);
+                            }
+
+                            @Override
+                            public void onPermissionDenied(PermissionDeniedResponse response) {
+
+                            }
+
+                            @Override
+                            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                                token.continuePermissionRequest();
+                            }
+                        }).check();
                 Toast.makeText(MainChat.this, "Sending image feature coming soon 🙂🔥", Toast.LENGTH_LONG).show();
             }
         });
@@ -339,5 +373,25 @@ public class MainChat extends AppCompatActivity
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == 1 && resultCode == RESULT_OK){
+            assert data != null;
+            if (data.getData() != null) {
+                filepath = data.getData();
+                try {
+                    InputStream inputStream = getContentResolver().openInputStream(filepath);
+                    bitmap = BitmapFactory.decodeStream(inputStream);
+                } catch (Exception ex) {
+                }
+                Intent intent = new Intent(MainChat.this , ActivityConfirm.class);
+                intent.putExtra("imageUri" , filepath.toString());
+                startActivity(intent);
+            }
+
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
