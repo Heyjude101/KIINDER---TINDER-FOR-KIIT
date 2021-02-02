@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Kiit Social</string>
+    <string name="GetInstance">$clearChat$</string>
+    <string name="GetOverloadedInstance">$clearUser$</string>
     <string name="it_s_a_basic_group_chat_app_with_complete_anonymity_and_with_no_fucking_features_because_the_guy_who_made_it_is_an_asshole_and_knows_nothing_but_slowly_i_will_add_more_features_and_things_will_get_better">It\'s a social application where all the members are completely anonymous. However, to ease with the visual and temporary anonymous identification, you are asked to select a nickname. You will own the nickname as long as you don\'t dump your account. If you dump your account, you cannot use the nickname again. A lot of features are yet to come like gif , video sharing, anonymous confessions, pdf notes sharing. Be on a look out for updates. Thanks!</string>
 </resources>
 

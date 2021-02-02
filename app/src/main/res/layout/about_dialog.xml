@@ -6,8 +6,11 @@
     android:padding="16dp">
 
     <TextView
+        android:background="@drawable/ed_bg"
+        android:textColor="#DCDCDC"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="16dp"
         android:text="@string/it_s_a_basic_group_chat_app_with_complete_anonymity_and_with_no_fucking_features_because_the_guy_who_made_it_is_an_asshole_and_knows_nothing_but_slowly_i_will_add_more_features_and_things_will_get_better"
         android:textSize="20sp" />
 </ScrollView>

@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,17 +36,15 @@ public class ActivityConfirm extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         fab = findViewById(R.id.fab);
         confirm_image = findViewById(R.id.confirm_image);
-        //RECEIVE THE IMAGE
         Bundle extras = getIntent().getExtras();
         myUri = Uri.parse(extras.getString("imageUri"));
-        //SET THE IMAGE
         confirm_image.setImageURI(myUri);
         fab.setOnClickListener(v -> {
-            uploadtofirebase();
+            uploadToFireBase();
         });
     }
 
-    private void uploadtofirebase() {
+    private void uploadToFireBase() {
 
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setTitle("File Uploader");

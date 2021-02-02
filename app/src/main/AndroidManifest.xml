@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_iconnn_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KIITAnonChat">
-        <activity android:name=".ActivityConfirm"></activity>
+        <activity android:name=".ActivityConfirm" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
