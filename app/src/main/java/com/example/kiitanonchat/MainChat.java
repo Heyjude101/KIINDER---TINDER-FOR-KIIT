@@ -36,6 +36,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -86,6 +87,7 @@ public class MainChat extends AppCompatActivity {
         actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setTitle("Elegant Chat");
+        actionBar.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext() , R.drawable.bgmain));
         db = FirebaseDatabase.getInstance();
         recyclerView = findViewById(R.id.recyclerView);
         b1 = findViewById(R.id.b1);

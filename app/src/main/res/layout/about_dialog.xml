@@ -6,8 +6,6 @@
     android:padding="16dp">
 
     <TextView
-        android:background="@drawable/ed_bg"
-        android:textColor="#DCDCDC"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
