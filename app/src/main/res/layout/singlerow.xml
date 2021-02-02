@@ -32,6 +32,7 @@
                 android:autoLink="all"
                 android:clickable="true"
                 android:paddingLeft="8dp"
+                android:includeFontPadding="false"
                 android:paddingTop="2dp"
                 android:paddingRight="8dp"
                 android:layout_width="wrap_content"
@@ -51,6 +52,7 @@
             <TextView
                 android:text="12:55 AM"
                 android:id="@+id/timeImg"
+                android:includeFontPadding="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
@@ -64,6 +66,7 @@
 
             <TextView
                 android:text="12:55 AM"
+                android:includeFontPadding="false"
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
