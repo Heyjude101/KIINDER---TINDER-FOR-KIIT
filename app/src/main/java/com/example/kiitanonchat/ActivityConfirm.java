@@ -3,6 +3,8 @@ package com.example.kiitanonchat;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -17,6 +19,8 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Objects;
 import java.util.Random;
 
@@ -24,6 +28,7 @@ public class ActivityConfirm extends AppCompatActivity {
     FloatingActionButton fab;
     ImageView confirm_image;
     Uri myUri;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +62,15 @@ public class ActivityConfirm extends AppCompatActivity {
                             @Override
                             public void onSuccess(Uri uri) {
                                 dialog.dismiss();
+                                String username = getSharedPreferences("Current_Username", 0).getString("username", "Anonymous");
+                                Calendar c = Calendar.getInstance();
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a");
+                                String time = simpleDateFormat.format(c.getTime());
+                                sharedPreferences = getSharedPreferences("COLOR", Context.MODE_PRIVATE);
+                                String userColor = sharedPreferences.getString("COLOR", "R.color.text1");
                                 FirebaseDatabase db = FirebaseDatabase.getInstance();
-                                DatabaseReference root = db.getReference("users");
-                                myDataHolder obj = new myDataHolder(uri.toString());
+                                DatabaseReference root = db.getReference("AllChat").push();
+                                model obj = new model("$null$" , username , userColor , time , uri.toString() );
                                 root.setValue(obj);
                                 finish();
                             }
@@ -70,9 +81,8 @@ public class ActivityConfirm extends AppCompatActivity {
                     @Override
                     public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                         float percent = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                        dialog.setMessage("Uploaded :" + (int) percent + " %");
+                        dialog.setMessage("Sending : " + (int) percent + " %");
                     }
                 });
-
     }
 }

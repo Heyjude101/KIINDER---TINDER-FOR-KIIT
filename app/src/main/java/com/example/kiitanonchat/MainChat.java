@@ -58,6 +58,8 @@ import java.util.Calendar;
 
 public class MainChat extends AppCompatActivity
 {
+
+    //uploadButton is what you have to search for.
     Bitmap bitmap;
     ActionBar actionBar;
     SharedPreferences sharedPreferences;
@@ -155,8 +157,7 @@ public class MainChat extends AppCompatActivity
                                 token.continuePermissionRequest();
                             }
                         }).check();
-                Toast.makeText(MainChat.this, "Sending image feature coming soon 🙂🔥", Toast.LENGTH_LONG).show();
-            }
+                }
         });
 
 
@@ -196,7 +197,7 @@ public class MainChat extends AppCompatActivity
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a");
                     String time = simpleDateFormat.format(c.getTime());
                     String userColor = sharedPreferences.getString("COLOR", "R.color.text1");
-                    obj = new model(val, username, userColor, time);
+                    obj = new model(val, username, userColor, time , "$null$");
                     newVal.setValue(obj);
 
 

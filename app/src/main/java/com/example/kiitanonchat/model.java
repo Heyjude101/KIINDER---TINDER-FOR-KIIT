@@ -6,14 +6,16 @@ public class model
     private String user;
     private String userColor;
     private String time;
+    private String imageUrl;
     model()
     {
     }
-    public model(String chats, String user , String userColor , String time) {
+    public model(String chats, String user , String userColor , String time , String imageUrl) {
         this.chats = chats;
         this.user = user;
         this.userColor = userColor;
         this.time = time;
+        this.imageUrl = imageUrl;
     }
 
     public String getTime() {
@@ -30,5 +32,12 @@ public class model
 
     public String getUserColor() {
         return userColor;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
