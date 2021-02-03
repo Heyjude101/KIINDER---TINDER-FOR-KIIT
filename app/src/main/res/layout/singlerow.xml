@@ -47,8 +47,7 @@
                     android:focusable="true" />
                 <ImageView
                     android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitCenter"
+                    android:layout_height="300dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="4dp"
