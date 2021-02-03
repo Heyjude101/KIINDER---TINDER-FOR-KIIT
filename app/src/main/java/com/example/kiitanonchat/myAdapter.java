@@ -24,19 +24,93 @@ import com.google.firebase.database.FirebaseDatabase;
 public class myAdapter extends FirebaseRecyclerAdapter<model, com.example.kiitanonchat.myAdapter.myViewHolder>
     {
         String url;
-
         public myAdapter(@NonNull FirebaseRecyclerOptions<model> options) {
             super(options);
         }
-
-
         @Override
         protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull model model) {
 
             String username = holder.user.getContext().getSharedPreferences("Current_Username" , 0).getString("username" , "left");
             Context context = holder.itemView.getContext();
+            holder.chats.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    String chat_id = getRef(position).getKey();
+                    if(username.equals(model.getUser()))
+                    {
+                        Snackbar snackbar = Snackbar.make(v,"Confirm Delete?",Snackbar.LENGTH_LONG);
+                        snackbar.setAction("Delete", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                FirebaseDatabase db = FirebaseDatabase.getInstance();
+                                String path = "/AllChat/" + context.getSharedPreferences("chatid" , 0).getString("chatid" , "test");
+                                DatabaseReference chatRef = db.getReference(path);
+                                chatRef.removeValue();
+                                context.getSharedPreferences("chatid" , 0).edit().clear().apply();
+                            }
+                        });
+                        snackbar.show();
+                        context.getSharedPreferences("chatid" , 0).edit().putString("chatid" , chat_id).apply();
+                    }
+                    else{
+                        context.getSharedPreferences("chatid" , 0).edit().clear().apply();
+                    }
+                    return true;
+                }
+            });
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    String chat_id = getRef(position).getKey();
+                    if(username.equals(model.getUser()))
+                    {
+                        Snackbar snackbar = Snackbar.make(v,"Confirm Delete?",Snackbar.LENGTH_LONG);
+                        snackbar.setAction("Delete", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                FirebaseDatabase db = FirebaseDatabase.getInstance();
+                                String path = "/AllChat/" + context.getSharedPreferences("chatid" , 0).getString("chatid" , "test");
+                                DatabaseReference chatRef = db.getReference(path);
+                                chatRef.removeValue();
+                                context.getSharedPreferences("chatid" , 0).edit().clear().apply();
+                            }
+                        });
+                        snackbar.show();
+                        context.getSharedPreferences("chatid" , 0).edit().putString("chatid" , chat_id).apply();
+                    }
+                    else{
+                        context.getSharedPreferences("chatid" , 0).edit().clear().apply();
+                    }
+                    return true;
+                }
+            });
+            holder.user.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    String chat_id = getRef(position).getKey();
+                    if(username.equals(model.getUser()))
+                    {
+                        Snackbar snackbar = Snackbar.make(v,"Confirm Delete?",Snackbar.LENGTH_LONG);
+                        snackbar.setAction("Delete", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                FirebaseDatabase db = FirebaseDatabase.getInstance();
+                                String path = "/AllChat/" + context.getSharedPreferences("chatid" , 0).getString("chatid" , "test");
+                                DatabaseReference chatRef = db.getReference(path);
+                                chatRef.removeValue();
+                                context.getSharedPreferences("chatid" , 0).edit().clear().apply();
+                            }
+                        });
+                        snackbar.show();
+                        context.getSharedPreferences("chatid" , 0).edit().putString("chatid" , chat_id).apply();
+                    }
+                    else{
+                        context.getSharedPreferences("chatid" , 0).edit().clear().apply();
+                    }
+                    return true;
+                }
+            });
             holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
-
                 @Override
                 public boolean onLongClick(View v) {
                             String chat_id = getRef(position).getKey();
