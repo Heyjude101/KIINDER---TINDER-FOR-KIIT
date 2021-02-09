@@ -1,23 +1,19 @@
 package com.example.kiitanonchat;
 
-import android.text.SpannableString;
-
-public class model
+public class modelc
 {
     private String chats;
     private String user;
     private String userColor;
     private String time;
-    private String imageUrl;
-    model()
+    modelc()
     {
     }
-    public model(String chats, String user , String userColor , String time , String imageUrl) {
+    public modelc(String chats, String user , String userColor , String time, String show) {
         this.chats = chats;
         this.user = user;
         this.userColor = userColor;
         this.time = time;
-        this.imageUrl = imageUrl;
     }
 
     public String getTime() {
@@ -36,12 +32,6 @@ public class model
         return userColor;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 
     public void setChats(String chats) {
         this.chats = chats;
@@ -58,4 +48,5 @@ public class model
     public void setTime(String time) {
         this.time = time;
     }
+
 }

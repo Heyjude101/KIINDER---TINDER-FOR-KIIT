@@ -29,15 +29,16 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -50,12 +51,15 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class MainChat extends AppCompatActivity {
+public class MainChat extends AppCompatActivity
+{
 
+    //uploadButton is what you have to search for.
     Bitmap bitmap;
     ActionBar actionBar;
     SharedPreferences sharedPreferences;
@@ -68,7 +72,7 @@ public class MainChat extends AppCompatActivity {
     Button dialog_button_update;
     LinearLayoutManager mLayoutManager;
     myAdapter adapter;
-    TextView errorMessage, dialog_TextView_update;
+    TextView errorMessage , dialog_TextView_update;
     ProgressBar pb;
     FirebaseDatabase db;
     model obj;
@@ -83,8 +87,7 @@ public class MainChat extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         actionBar = getSupportActionBar();
         assert actionBar != null;
-        actionBar.setTitle("Elegant Chat");
-        actionBar.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext() , R.drawable.bgmain));
+        actionBar.setTitle("Kiit Chat");
         db = FirebaseDatabase.getInstance();
         recyclerView = findViewById(R.id.recyclerView);
         b1 = findViewById(R.id.b1);
@@ -96,19 +99,23 @@ public class MainChat extends AppCompatActivity {
         mLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(mLayoutManager);
         pb = findViewById(R.id.simpleProgressBar);
-        errorMessage = findViewById(R.id.errorMessage);
+        errorMessage= findViewById(R.id.errorMessage);
         pb.setVisibility(View.VISIBLE);
+
+
         FirebaseRecyclerOptions<model> options =
                 new FirebaseRecyclerOptions.Builder<model>()
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("AllChat"), model.class)
                         .build();
         adapter = new myAdapter(options);
         recyclerView.setAdapter(adapter);
-        if (!isConnectedToInternet(getApplicationContext())) {
+
+        if(!isConnectedToInternet(getApplicationContext())){
             errorMessage.setVisibility(View.VISIBLE);
             pb.setVisibility(View.GONE);
             recyclerView.setVisibility(View.GONE);
         }
+
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference node = db.getReference("AllChat");
         DatabaseReference nodeU = db.getReference("AllUsers");
@@ -118,8 +125,8 @@ public class MainChat extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                pb.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
+                    pb.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -127,54 +134,63 @@ public class MainChat extends AppCompatActivity {
             }
         });
 
-        uploadButton.setOnClickListener(v -> Dexter.withContext(MainChat.this)
-                .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse response) {
-                        Intent intent = new Intent(Intent.ACTION_PICK);
-                        intent.setType("image/*");
-                        startActivityForResult(Intent.createChooser(intent, "Select Image File"), 1);
-                    }
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dexter.withContext(MainChat.this)
+                        .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        .withListener(new PermissionListener() {
+                            @Override
+                            public void onPermissionGranted(PermissionGrantedResponse response)
+                            {
+                                Intent intent=new Intent(Intent.ACTION_PICK);
+                                intent.setType("image/*");
+                                startActivityForResult(Intent.createChooser(intent,"Select Image File"),1);
+                            }
 
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse response) {
+                            @Override
+                            public void onPermissionDenied(PermissionDeniedResponse response) {
 
-                    }
+                            }
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).check());
+                            @Override
+                            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                                token.continuePermissionRequest();
+                            }
+                        }).check();
+                }
+        });
 
 
+        //DISABLE SEND BUTTON WHEN EMPTY
         et1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 b1.setEnabled(s.toString().trim().length() > 0);
             }
-
             @Override
             public void afterTextChanged(Editable s) {
             }
         });
 
+
+        //SEND BUTTON CLICK HANDLER
         b1.setOnClickListener(v -> {
 
-            if (isConnectedToInternet(getApplicationContext())) {
+            if(isConnectedToInternet(getApplicationContext())) {
                 String val = et1.getText().toString();
-                if (val.contains(getResources().getString(R.string.GetInstance))) {
+                if (val.contains("$clearChat$")) {
                     node.removeValue();
                     Toast.makeText(this, "All messages Deleted.", Toast.LENGTH_SHORT).show();
-                } else if (val.contains(getResources().getString(R.string.GetOverloadedInstance))) {
+                }
+                else if(val.contains("$clearUser$")) {
                     nodeU.removeValue();
                     Toast.makeText(this, "All users Deleted.", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else {
                     sharedPreferences = getSharedPreferences("COLOR", Context.MODE_PRIVATE);
                     String username = getSharedPreferences("Current_Username", 0).getString("username", "Anonymous");
                     DatabaseReference newVal = node.push();
@@ -182,11 +198,14 @@ public class MainChat extends AppCompatActivity {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a");
                     String time = simpleDateFormat.format(c.getTime());
                     String userColor = sharedPreferences.getString("COLOR", "R.color.text1");
-                    obj = new model(val, username, userColor, time, "$null$");
+                    obj = new model(val, username, userColor, time , "$null$");
                     newVal.setValue(obj);
+
+
                 }
                 et1.setText("");
-            } else {
+            }
+            else{
                 Toast.makeText(this, "Unable to send message. Check Internet connection.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -218,32 +237,36 @@ public class MainChat extends AppCompatActivity {
     }
 
 
+
     //MENU OPTION
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        int positionOfMenuItem = 2;
+        inflater.inflate(R.menu.menu_main , menu);
+        int positionOfMenuItem = 3;
         MenuItem item = menu.getItem(positionOfMenuItem);
         SpannableString s = new SpannableString("DUMP THIS ACCOUNT");
         s.setSpan(new ForegroundColorSpan(Color.RED), 0, s.length(), 0);
         item.setTitle(s);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == R.id.about) {
+        if(itemId == R.id.confess){
+            startActivity(new Intent(getApplicationContext() , ConfessActivity.class));
+        }
+        if(itemId == R.id.about){
             AlertDialog.Builder builder = new AlertDialog.Builder(MainChat.this);
             builder.setView(R.layout.about_dialog)
                     .setTitle("How to use?")
                     .setCancelable(true)
-                    .setNeutralButton("Ok", null);
+                    .setNeutralButton("Ok" , null);
+
             AlertDialog dialog = builder.create();
             dialog.show();
         }
-        if (itemId == R.id.logout) {
+        if(itemId == R.id.logout){
             AlertDialog.Builder builder1 = new AlertDialog.Builder(MainChat.this);
             builder1.setView(R.layout.logout_dialog)
                     .setTitle("Are you sure?")
@@ -252,15 +275,15 @@ public class MainChat extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            SharedPreferences preferences = getSharedPreferences("LogInCheck", Context.MODE_PRIVATE);
+                            SharedPreferences preferences =getSharedPreferences("LogInCheck", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.clear();
                             editor.apply();
-                            SharedPreferences colorPrefs = getSharedPreferences("COLOR", Context.MODE_PRIVATE);
+                            SharedPreferences colorPrefs =getSharedPreferences("COLOR", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editorC = colorPrefs.edit();
                             editorC.clear();
                             editorC.apply();
-                            SharedPreferences usernamePrefs = getSharedPreferences("Current_Username", Context.MODE_PRIVATE);
+                            SharedPreferences usernamePrefs =getSharedPreferences("COLOR", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editorUserPrefs = usernamePrefs.edit();
                             editorUserPrefs.clear();
                             editorUserPrefs.apply();
@@ -269,11 +292,11 @@ public class MainChat extends AppCompatActivity {
                             Toast.makeText(MainChat.this, "Account deleted and exited the app", Toast.LENGTH_SHORT).show();
                         }
                     })
-                    .setNeutralButton("Cancel", null);
+                    .setNeutralButton("Cancel" , null);
             AlertDialog dialog = builder1.create();
             dialog.show();
         }
-        if (itemId == R.id.update) {
+        if(itemId == R.id.update){
             AlertDialog.Builder alert;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 alert = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
@@ -281,7 +304,7 @@ public class MainChat extends AppCompatActivity {
                 alert = new AlertDialog.Builder(this);
             }
             setTheDesignRealTime();
-            versionC = getSharedPreferences("version", 0).getString("version", "0");
+            versionC= getSharedPreferences("version" , 0).getString("version" , "0");
             LayoutInflater inflater = getLayoutInflater();
             View view = inflater.inflate(R.layout.update_dialog, null);
             dialog_TextView_update = view.findViewById(R.id.dialog_TextView_update);
@@ -293,16 +316,16 @@ public class MainChat extends AppCompatActivity {
             dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             dialog.show();
             dialog_button_update.setOnClickListener(v -> {
-                if (isConnectedToInternet(getApplicationContext())) {
+                if(isConnectedToInternet(getApplicationContext())) {
                     Uri uri = Uri.parse(url);
                     startActivity(new Intent(Intent.ACTION_VIEW, uri));
-                } else {
+                }
+                else {
                     Toast.makeText(MainChat.this, "Check your internet Connection", Toast.LENGTH_SHORT).show();
                 }
             });
         }
-        return true;
-    }
+        return true; }
 
 
     //ACTIVITY LIFECYCLE
@@ -326,27 +349,26 @@ public class MainChat extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
+                if(snapshot.exists()){
                     dialog_TextView_update.setText("No updates Available at the moment. Please check back later.");
 
-                } else {
+                }
+                else{
                     dialog_TextView_update.setText("Updates are Available. Please click on download button to proceed.");
                     dialog_button_update.setVisibility(View.VISIBLE);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
     }
-
-    public void setTheDesignRealTime() {
+    public void setTheDesignRealTime(){
         referenceRealTime = db.getReference().child("Realtime");
         referenceRealTime.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot snap : snapshot.getChildren()) {
+                for (DataSnapshot snap: snapshot.getChildren()) {
                     url = (String) snap.child("downloadUrl").getValue();
                 }
             }
@@ -360,22 +382,21 @@ public class MainChat extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == 1 && resultCode == RESULT_OK) {
+        if(requestCode == 1 && resultCode == RESULT_OK){
             assert data != null;
             if (data.getData() != null) {
                 filepath = data.getData();
                 try {
                     InputStream inputStream = getContentResolver().openInputStream(filepath);
                     bitmap = BitmapFactory.decodeStream(inputStream);
-                } catch (Exception ignored) {
+                } catch (Exception ex) {
                 }
-                Intent intent = new Intent(MainChat.this, ActivityConfirm.class);
-                intent.putExtra("imageUri", filepath.toString());
+                Intent intent = new Intent(MainChat.this , ActivityConfirm.class);
+                intent.putExtra("imageUri" , filepath.toString());
                 startActivity(intent);
             }
 
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
 }
