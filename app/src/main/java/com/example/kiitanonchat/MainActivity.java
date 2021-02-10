@@ -106,16 +106,16 @@ public class MainActivity extends AppCompatActivity {
 
     //CHECK IF USER EXISTS OR NOT
     private void userExists(String allUsername) {
-        nodeOfUser.orderByChild("allUsername").equalTo(allUsername).addListenerForSingleValueEvent(new ValueEventListener() {
+        nodeOfUser.orderByChild("allUsername").equalTo(allUsername.toLowerCase()).addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     Toast.makeText(getApplicationContext(), "Nickname already taken. Try another.", Toast.LENGTH_LONG).show();
                 } else {
-                    AllUsers AllUsersObj = new AllUsers(dialog_editText.getText().toString().trim());
+                    AllUsers AllUsersObj = new AllUsers(dialog_editText.getText().toString().toLowerCase().trim());
                     nodeOfUser.push().setValue(AllUsersObj);
-                    getSharedPreferences("Current_Username", 0).edit().putString("username", dialog_editText.getText().toString().trim()).apply();
+                    getSharedPreferences("Current_Username", 0).edit().putString("username", dialog_editText.getText().toString().toLowerCase().trim()).apply();
                     getSharedPreferences("LogInCheck", MODE_PRIVATE).edit().putBoolean("isLoggedIn", true).apply();
                     Intent intent = new Intent(MainActivity.this, MainChat.class);
                     startActivity(intent);

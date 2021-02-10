@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:id="@+id/ll"
     android:visibility="gone"
-    android:background="@drawable/bg"
+    android:background="@drawable/bgc"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
