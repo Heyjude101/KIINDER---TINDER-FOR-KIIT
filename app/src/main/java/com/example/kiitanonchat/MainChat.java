@@ -2,7 +2,6 @@ package com.example.kiitanonchat;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -36,10 +35,13 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -134,32 +136,27 @@ public class MainChat extends AppCompatActivity
             }
         });
 
-        uploadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Dexter.withContext(MainChat.this)
-                        .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                        .withListener(new PermissionListener() {
-                            @Override
-                            public void onPermissionGranted(PermissionGrantedResponse response)
-                            {
-                                Intent intent=new Intent(Intent.ACTION_PICK);
-                                intent.setType("image/*");
-                                startActivityForResult(Intent.createChooser(intent,"Select Image File"),1);
-                            }
+        uploadButton.setOnClickListener(v -> Dexter.withContext(MainChat.this)
+                .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response)
+                    {
+                        Intent intent=new Intent(Intent.ACTION_PICK);
+                        intent.setType("image/*");
+                        startActivityForResult(Intent.createChooser(intent,"Select Image File"),1);
+                    }
 
-                            @Override
-                            public void onPermissionDenied(PermissionDeniedResponse response) {
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
 
-                            }
+                    }
 
-                            @Override
-                            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                                token.continuePermissionRequest();
-                            }
-                        }).check();
-                }
-        });
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check());
 
 
         //DISABLE SEND BUTTON WHEN EMPTY
@@ -271,26 +268,23 @@ public class MainChat extends AppCompatActivity
             builder1.setView(R.layout.logout_dialog)
                     .setTitle("Are you sure?")
                     .setCancelable(true)
-                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            SharedPreferences preferences =getSharedPreferences("LogInCheck", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = preferences.edit();
-                            editor.clear();
-                            editor.apply();
-                            SharedPreferences colorPrefs =getSharedPreferences("COLOR", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editorC = colorPrefs.edit();
-                            editorC.clear();
-                            editorC.apply();
-                            SharedPreferences usernamePrefs =getSharedPreferences("COLOR", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editorUserPrefs = usernamePrefs.edit();
-                            editorUserPrefs.clear();
-                            editorUserPrefs.apply();
+                    .setPositiveButton("Delete", (dialog, which) -> {
+                        dialog.dismiss();
+                        SharedPreferences preferences =getSharedPreferences("LogInCheck", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.clear();
+                        editor.apply();
+                        SharedPreferences colorPrefs =getSharedPreferences("COLOR", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editorC = colorPrefs.edit();
+                        editorC.clear();
+                        editorC.apply();
+                        SharedPreferences usernamePrefs =getSharedPreferences("COLOR", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editorUserPrefs = usernamePrefs.edit();
+                        editorUserPrefs.clear();
+                        editorUserPrefs.apply();
 
-                            finish();
-                            Toast.makeText(MainChat.this, "Account deleted and exited the app", Toast.LENGTH_SHORT).show();
-                        }
+                        finish();
+                        Toast.makeText(MainChat.this, "Account deleted and exited the app", Toast.LENGTH_SHORT).show();
                     })
                     .setNeutralButton("Cancel" , null);
             AlertDialog dialog = builder1.create();
@@ -389,7 +383,7 @@ public class MainChat extends AppCompatActivity
                 try {
                     InputStream inputStream = getContentResolver().openInputStream(filepath);
                     bitmap = BitmapFactory.decodeStream(inputStream);
-                } catch (Exception ex) {
+                } catch (Exception ignored) {
                 }
                 Intent intent = new Intent(MainChat.this , ActivityConfirm.class);
                 intent.putExtra("imageUri" , filepath.toString());
