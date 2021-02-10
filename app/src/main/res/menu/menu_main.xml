@@ -5,7 +5,7 @@
     <item android:id="@+id/about" app:showAsAction="never" android:title="About"/>
     <item android:id="@+id/update" app:showAsAction="never" android:title="Check updates"/>
     <item android:id="@+id/confess" app:showAsAction="never"
-        android:title="Confessions" />
+        android:title="Confessions (Beta)" />
     <item android:id="@+id/logout" app:showAsAction="never"
         android:title="" />
 </menu>
