@@ -75,7 +75,7 @@ public class MainChat extends AppCompatActivity
     Button dialog_button_update;
     LinearLayoutManager mLayoutManager;
     myAdapter adapter;
-    TextView errorMessage , dialog_TextView_update;
+    TextView errorMessage , dialog_TextView_update, uniqueIdTvmc;
     ProgressBar pb;
     FirebaseDatabase db;
     model obj;
@@ -183,31 +183,47 @@ public class MainChat extends AppCompatActivity
                 if (val.contains("$clearChat$")) {
                     node.removeValue();
                     Toast.makeText(this, "All messages Deleted.", Toast.LENGTH_SHORT).show();
-                }
-                else if(val.contains("$clearUser$")) {
+                } else if (val.contains("$clearUser$")) {
                     nodeU.removeValue();
                     Toast.makeText(this, "All users Deleted.", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    String androidId = Settings.Secure.getString(this.getContentResolver() , Settings.Secure.ANDROID_ID);
-                    sharedPreferences = getSharedPreferences("COLOR", Context.MODE_PRIVATE);
-                    String username = getSharedPreferences("Current_Username", 0).getString("username", "Anonymous");
-                    DatabaseReference newVal = node.push();
-                    Calendar c = Calendar.getInstance();
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a");
-                    String time = simpleDateFormat.format(c.getTime());
-                    String userColor = sharedPreferences.getString("COLOR", "R.color.text1");
-                    obj = new model(val, username, userColor, time , "$null$" , androidId);
-                    newVal.setValue(obj);
+                } else {
+                    String androidId = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+                    FirebaseDatabase dbx = FirebaseDatabase.getInstance();
+                    DatabaseReference reference = dbx.getReference().child("Banned");
+                    reference.orderByChild("bannedUser").equalTo(androidId).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.O)
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                setContentView(R.layout.banned);
+                                uniqueIdTvmc = findViewById(R.id.uniqueId);
+                                uniqueIdTvmc.setText(androidId);
+                            } else {
+                                sharedPreferences = getSharedPreferences("COLOR", Context.MODE_PRIVATE);
+                                String username = getSharedPreferences("Current_Username", 0).getString("username", "Anonymous");
+                                DatabaseReference newVal = node.push();
+                                Calendar c = Calendar.getInstance();
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a");
+                                String time = simpleDateFormat.format(c.getTime());
+                                String userColor = sharedPreferences.getString("COLOR", "R.color.text1");
+                                obj = new model(val, username, userColor, time, "$null$", androidId);
+                                newVal.setValue(obj);
+                                et1.setText("");
+                            }
+                        }
 
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
+                        }
+                    });
                 }
-                et1.setText("");
             }
             else{
                 Toast.makeText(this, "Unable to send message. Check Internet connection.", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         //HELP WITH THE SCROLL ISSUE
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
