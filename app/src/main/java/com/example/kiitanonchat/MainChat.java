@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
@@ -89,7 +90,7 @@ public class MainChat extends AppCompatActivity
         setContentView(R.layout.activity_main);
         actionBar = getSupportActionBar();
         assert actionBar != null;
-        actionBar.setTitle("Kiit Chat");
+        actionBar.setTitle("Open Chat");
         db = FirebaseDatabase.getInstance();
         recyclerView = findViewById(R.id.recyclerView);
         b1 = findViewById(R.id.b1);
@@ -188,6 +189,7 @@ public class MainChat extends AppCompatActivity
                     Toast.makeText(this, "All users Deleted.", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    String androidId = Settings.Secure.getString(this.getContentResolver() , Settings.Secure.ANDROID_ID);
                     sharedPreferences = getSharedPreferences("COLOR", Context.MODE_PRIVATE);
                     String username = getSharedPreferences("Current_Username", 0).getString("username", "Anonymous");
                     DatabaseReference newVal = node.push();
@@ -195,7 +197,7 @@ public class MainChat extends AppCompatActivity
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a");
                     String time = simpleDateFormat.format(c.getTime());
                     String userColor = sharedPreferences.getString("COLOR", "R.color.text1");
-                    obj = new model(val, username, userColor, time , "$null$");
+                    obj = new model(val, username, userColor, time , "$null$" , androidId);
                     newVal.setValue(obj);
 
 
@@ -254,14 +256,19 @@ public class MainChat extends AppCompatActivity
             startActivity(new Intent(getApplicationContext() , ConfessActivity.class));
         }
         if(itemId == R.id.about){
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainChat.this);
-            builder.setView(R.layout.about_dialog)
-                    .setTitle("How to use?")
-                    .setCancelable(true)
-                    .setNeutralButton("Ok" , null);
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
+                AlertDialog.Builder alert;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    alert = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+                } else {
+                    alert = new AlertDialog.Builder(this);
+                }
+                LayoutInflater inflater = getLayoutInflater();
+                View view = inflater.inflate(R.layout.about_dialog, null);
+                alert.setView(view);
+                alert.setCancelable(true);
+                dialog = alert.create();
+                dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                dialog.show();
         }
         if(itemId == R.id.logout){
             AlertDialog.Builder builder1 = new AlertDialog.Builder(MainChat.this);

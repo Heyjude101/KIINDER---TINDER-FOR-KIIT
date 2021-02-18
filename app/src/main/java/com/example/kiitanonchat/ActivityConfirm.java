@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -67,7 +68,8 @@ public class ActivityConfirm extends AppCompatActivity {
                                 String userColor = sharedPreferences.getString("COLOR", "R.color.text1");
                                 FirebaseDatabase db = FirebaseDatabase.getInstance();
                                 DatabaseReference root = db.getReference("AllChat").push();
-                                model obj = new model("$null$" , username , userColor , time , uri.toString() );
+                                String androidId = Settings.Secure.getString(ActivityConfirm.this.getContentResolver() , Settings.Secure.ANDROID_ID);
+                                model obj = new model("$null$" , username , userColor , time , uri.toString() , androidId );
                                 root.setValue(obj);
                                 finish();
                             }

@@ -9,10 +9,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -204,14 +206,21 @@ public class ConfessActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.rules){
-            AlertDialog.Builder builder = new AlertDialog.Builder(ConfessActivity.this);
-            builder.setView(R.layout.rules_dialog)
-                    .setTitle("Please read entirely!")
-                    .setCancelable(true)
-                    .setNeutralButton("Ok" , null);
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
+            AlertDialog dialog;
+                AlertDialog.Builder alert;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    alert = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+                } else {
+                    alert = new AlertDialog.Builder(this);
+                }
+                LayoutInflater inflater = getLayoutInflater();
+                View view = inflater.inflate(R.layout.rules_dialog, null);
+                alert.setView(view);
+                alert.setCancelable(true);
+                dialog = alert.create();
+                dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                dialog.show();
+            }
         return true;
     }
 }

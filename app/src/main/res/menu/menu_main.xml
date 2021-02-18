@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/about" app:showAsAction="never" android:title="About"/>
+    <item android:id="@+id/about" app:showAsAction="never" android:title="Open chat rules"/>
     <item android:id="@+id/update" app:showAsAction="never" android:title="Check updates"/>
     <item android:id="@+id/confess" app:showAsAction="never"
         android:title="Confessions (Beta)" />

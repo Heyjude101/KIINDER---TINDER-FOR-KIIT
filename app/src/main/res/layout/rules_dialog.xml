@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="@drawable/bg"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Here goes the rules for the submission of confessions"
-        android:textSize="20sp" />
-</ScrollView>
+        android:background="#000000"
+        android:gravity="center"
+        android:text="Rules of confession"
+        android:textColor="#E0FFFF"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/dialog_TextView_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="1. Do not be a creep. Respect the members as you would in real life.\n\n2. All confessions are reviewed before being shown to public.\n\n3. You must make an attempt to keep it detailed and of good quality. We reject certain confessions if it is poorly written. \n\n4. It must be a confession. Something like :- 'I did not attend classes today.'.. is not considered as a confession. Like com'on. Really?"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

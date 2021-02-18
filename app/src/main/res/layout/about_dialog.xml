@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="@drawable/bg"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="@string/it_s_a_basic_group_chat_app_with_complete_anonymity_and_with_no_fucking_features_because_the_guy_who_made_it_is_an_asshole_and_knows_nothing_but_slowly_i_will_add_more_features_and_things_will_get_better"
-        android:textSize="20sp" />
-</ScrollView>
+        android:background="#000000"
+        android:gravity="center"
+        android:text="Open Chat Rules"
+        android:textColor="#E0FFFF"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/dialog_TextView_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="1. Do not be a creep. Respect the members as you would in real life.\n\n2. No NSFW links or images. Let's try and keep this place healthy and free from filth.\n\n3. If you want to advertise regarding anything in general, You can contact the admin at kiitchatapp@gmail.com and you will be given a banner for it."
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

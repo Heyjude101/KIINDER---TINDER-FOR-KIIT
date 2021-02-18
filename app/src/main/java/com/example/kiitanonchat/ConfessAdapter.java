@@ -28,21 +28,23 @@ public class ConfessAdapter extends FirebaseRecyclerAdapter<modelc, ConfessAdapt
             holder.time.setText(modelc.getTime());
 //          Set the username color in the chat
             String uColor = modelc.getUserColor();
-            if (uColor.equals("R.color.text5")) {
+        switch (uColor) {
+            case "R.color.text5":
                 holder.user.setTextColor(holder.user.getContext().getResources().getColor(R.color.text5));
-            }
-            if (uColor.equals("R.color.text1")) {
+                break;
+            case "R.color.text1":
                 holder.user.setTextColor(holder.user.getContext().getResources().getColor(R.color.text1));
-            }
-            if (uColor.equals("R.color.text2")) {
+                break;
+            case "R.color.text2":
                 holder.user.setTextColor(holder.user.getContext().getResources().getColor(R.color.text2));
-            }
-            if (uColor.equals("R.color.text3")) {
+                break;
+            case "R.color.text3":
                 holder.user.setTextColor(holder.user.getContext().getResources().getColor(R.color.text3));
-            }
-            if (uColor.equals("R.color.text4")) {
+                break;
+            case "R.color.text4":
                 holder.user.setTextColor(holder.user.getContext().getResources().getColor(R.color.text4));
-            }
+                break;
+        }
     }
 
 

@@ -9,15 +9,26 @@ public class model
     private String userColor;
     private String time;
     private String imageUrl;
+    private String androidId;
     model()
     {
     }
-    public model(String chats, String user , String userColor , String time , String imageUrl) {
+    public model(String chats, String user , String userColor , String time , String imageUrl , String androidId) {
         this.chats = chats;
         this.user = user;
         this.userColor = userColor;
         this.time = time;
         this.imageUrl = imageUrl;
+        this.androidId = androidId;
+
+    }
+
+    public String getAndroidId() {
+        return androidId;
+    }
+
+    public void setAndroidId(String androidId) {
+        this.androidId = androidId;
     }
 
     public String getTime() {
