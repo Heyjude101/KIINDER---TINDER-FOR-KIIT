@@ -206,7 +206,9 @@ public class MainChat extends AppCompatActivity {
                                 obj = new model(val, username, userColor, time, "$null$", androidId);
                                 newVal.setValue(obj);
                                 et1.setText("");
+
                             }
+
                         }
 
                         @Override
