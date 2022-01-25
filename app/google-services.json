@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "909105646437",
-    "firebase_url": "https://kiit-chat-new-default-rtdb.firebaseio.com",
-    "project_id": "kiit-chat-new",
-    "storage_bucket": "kiit-chat-new.appspot.com"
+    "project_number": "XXXXX",
+    "firebase_url": "XXXXXXX",
+    "project_id": "XXXXXX",
+    "storage_bucket": "XXXXXXX"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:909105646437:android:ffd06ae8e5cac5be6f2f8c",
+        "mobilesdk_app_id": "XXXXXXX",
         "android_client_info": {
           "package_name": "com.example.kiitanonchat"
         }
       },
       "oauth_client": [
         {
-          "client_id": "909105646437-3t30vfrbtojrcoqcdmb13b4oj39tk87g.apps.googleusercontent.com",
+          "client_id": "XXXXXX",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCBhc0p63v0KhHje7ryjI8upmozYkGPnTU"
+          "current_key": "XXXXXXX"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "909105646437-3t30vfrbtojrcoqcdmb13b4oj39tk87g.apps.googleusercontent.com",
+              "client_id": "XXXXXXXX",
               "client_type": 3
             }
           ]
